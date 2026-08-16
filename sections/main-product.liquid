@@ -1,0 +1,113 @@
+{% comment %}
+  DeshiStore Main Product Section
+  Reads Shopify Product, Variants, Colors, Sizes, Description, and Images
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+    
+    <!-- Image Gallery -->
+    <div class="space-y-4">
+      <div class="aspect-square bg-slate-100 rounded-3xl overflow-hidden border border-slate-200">
+        <img id="main-product-image" 
+             src="{{ product.featured_image | image_url: width: 1000 }}" 
+             alt="{{ product.title }}" 
+             class="w-full h-full object-cover" />
+      </div>
+
+      {% if product.images.size > 1 %}
+        <div class="flex gap-3 overflow-x-auto pb-2">
+          {% for image in product.images %}
+            <button onclick="document.getElementById('main-product-image').src='{{ image | image_url: width: 1000 }}'"
+                    class="w-20 h-20 rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-amber-500 transition-colors shrink-0">
+              <img src="{{ image | image_url: width: 200 }}" class="w-full h-full object-cover" />
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Details & Variant Picker -->
+    <div class="space-y-6">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900">{{ product.title }}</h1>
+        {% if product.selected_or_first_available_variant.sku != blank %}
+          <span class="text-xs font-mono text-slate-500 mt-1 block">SKU: {{ product.selected_or_first_available_variant.sku }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Price -->
+      <div class="flex items-baseline gap-3">
+        <span class="text-3xl font-black text-amber-600">৳{{ product.price | money_without_currency }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="text-lg text-slate-400 line-through">৳{{ product.compare_at_price | money_without_currency }}</span>
+          {% assign save_amount = product.compare_at_price | minus: product.price %}
+          <span class="bg-rose-100 text-rose-700 font-bold text-xs px-2.5 py-1 rounded-full">৳{{ save_amount | money_without_currency }} সেভ</span>
+        {% endif %}
+      </div>
+
+      <!-- Shopify Dynamic Variant Selectors (Color / Size) -->
+      <form action="/cart/add" method="post" id="add-to-cart-form" class="space-y-5">
+        <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" />
+
+        {% for option in product.options_with_values %}
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              {{ option.name }}: <span class="text-amber-600" id="selected-{{ option.name | handle }}">{{ option.selected_value }}</span>
+            </label>
+            <div class="flex flex-wrap gap-2">
+              {% for value in option.values %}
+                <button type="button" 
+                        onclick="selectVariantOption('{{ option.name | handle }}', '{{ value | escape }}')"
+                        class="px-4 py-2 rounded-xl text-xs font-bold border border-slate-300 hover:border-amber-500 transition-all">
+                  {{ value }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+
+        <!-- Quantity & Order CTA Buttons -->
+        <div class="pt-4 border-t border-slate-200 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button type="button" 
+                    onclick="openCODModal('{{ product.selected_or_first_available_variant.id }}', '{{ product.title | escape }}', '{{ product.price | money_without_currency }}')"
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-4 rounded-2xl text-base shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <span>অর্ডার করুন (ক্যাশ অন ডেলিভারি)</span>
+            </button>
+
+            {% if section.settings.whatsapp_number != blank %}
+              <a href="https://wa.me/{{ section.settings.whatsapp_number }}?text=Hello,%20I%20want%20to%20order%20{{ product.title | url_encode }}" 
+                 target="_blank"
+                 class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl text-base shadow-md flex items-center justify-center gap-2">
+                <span>হোয়াটসঅ্যাপে সরাসরি অর্ডার</span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </form>
+
+      <!-- Product Description -->
+      <div class="pt-6 border-t border-slate-200 text-slate-700 text-sm leading-relaxed">
+        <h3 class="font-bold text-slate-900 text-base mb-2">পণ্যের বিবরণ:</h3>
+        <div class="prose max-w-none">{{ product.description }}</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Main Product Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp Hotline Number",
+      "default": "8801700000000"
+    }
+  ]
+}
+{% endschema %}

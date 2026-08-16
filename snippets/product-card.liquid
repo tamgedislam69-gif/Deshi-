@@ -1,0 +1,86 @@
+{% comment %}
+  DeshiStore High-Conversion Product Card
+  Usage: {% render 'product-card', product: product %}
+{% endcomment %}
+
+<div class="product-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+  <!-- Image Frame -->
+  <div class="relative aspect-4/5 overflow-hidden bg-slate-100">
+    <a href="{{ product.url }}">
+      <img src="{{ product.featured_image | image_url: width: 600 }}" 
+           alt="{{ product.title }}" 
+           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+    </a>
+    
+    <!-- Badges -->
+    <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+      {% if product.compare_at_price > product.price %}
+        {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+        <span class="bg-rose-600 text-white font-bold text-xs px-2.5 py-1 rounded-full shadow-xs">
+          {{ discount }}% ছাড়
+        </span>
+      {% endif %}
+      {% if product.selected_or_first_available_variant.sku != blank %}
+        <span class="bg-slate-900/80 backdrop-blur-md text-amber-300 font-mono text-[10px] px-2 py-0.5 rounded-md border border-amber-500/30">
+          SKU: {{ product.selected_or_first_available_variant.sku }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4 flex flex-col flex-1">
+    <h3 class="font-bold text-slate-800 text-base line-clamp-2 hover:text-amber-600 transition-colors">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <!-- Dynamic Options Preview (Color & Size) -->
+    {% for option in product.options_with_values %}
+      {% assign downcased_option = option.name | downcase %}
+      {% if downcased_option contains 'color' or downcased_option contains 'কালার' or downcased_option contains 'রং' %}
+        <div class="mt-2 flex items-center gap-1.5">
+          <span class="text-[10px] text-slate-400 font-bold uppercase">কালার:</span>
+          <div class="flex items-center gap-1">
+            {% for value in option.values limit: 4 %}
+              <span class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-slate-200 inline-block" title="{{ value }}"></span>
+            {% endfor %}
+            {% if option.values.size > 4 %}
+              <span class="text-[9px] text-slate-500 font-bold">+{{ option.values.size | minus: 4 }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% elsif downcased_option contains 'size' or downcased_option contains 'সাইজ' %}
+        <div class="mt-1.5 flex items-center gap-1">
+          <span class="text-[10px] text-slate-400 font-bold uppercase">সাইজ:</span>
+          <div class="flex items-center gap-1">
+            {% for value in option.values limit: 4 %}
+              <span class="text-[10px] font-bold px-1.5 py-0.5 bg-slate-100 rounded text-slate-700 border border-slate-200">{{ value }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Price -->
+    <div class="mt-3 flex items-baseline gap-2">
+      <span class="text-xl font-extrabold text-amber-600">
+        ৳{{ product.price | money_without_currency }}
+      </span>
+      {% if product.compare_at_price > product.price %}
+        <span class="text-xs text-slate-400 line-through font-medium">
+          ৳{{ product.compare_at_price | money_without_currency }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- Quick COD Button -->
+    <div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+      <button type="button" 
+              onclick="openCODModal('{{ product.selected_or_first_available_variant.id }}', '{{ product.title | escape }}', '{{ product.price | money_without_currency }}')"
+              class="flex-1 bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-sm py-2.5 px-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
+        <span>অর্ডার করুন</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>

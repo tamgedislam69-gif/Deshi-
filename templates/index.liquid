@@ -1,0 +1,18 @@
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+  <div class="text-center space-y-2">
+    <h1 class="text-3xl font-extrabold text-slate-900">{{ shop.name }} - হাই-কনভার্সন প্রোডাক্ট কালেকশন</h1>
+    <p class="text-slate-600 text-sm">পছন্দের পণ্যটি বেছে নিয়ে ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার করুন</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for product in collections.frontpage.products limit: 12 %}
+      {% render 'product-card', product: product %}
+    {% else %}
+      {% for product in collections.all.products limit: 12 %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  {% section 'cod-checkout' %}
+</div>

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "DeshiStore COD Theme",
+    "theme_author": "DeshiStore",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://deshistore.com.bd",
+    "theme_support_url": "https://deshistore.com.bd"
+  },
+  {
+    "name": "General Settings",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement Text",
+        "default": "🔥 মেগা অফার! সারাদেশে ক্যাশ অন ডেলিভারি সার্ভিস চালু আছে।"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_phone",
+        "label": "WhatsApp Phone Number",
+        "default": "8801700000000"
+      }
+    ]
+  }
+]
