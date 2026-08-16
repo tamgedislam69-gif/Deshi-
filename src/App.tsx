@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { HeroSlider } from './components/HeroSlider';
+import { CategoryCircles } from './components/CategoryCircles';
+import { FlashSaleTimer } from './components/FlashSaleTimer';
 import { ProductGrid } from './components/ProductGrid';
+import { CustomerReviews } from './components/CustomerReviews';
 import { QuickViewModal } from './components/QuickViewModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CODCheckoutModal } from './components/CODCheckoutModal';
@@ -10,6 +13,9 @@ import { OrderTrackingView } from './components/OrderTrackingView';
 import { AdminDashboard } from './components/AdminDashboard';
 import { ShopifyExporterModal } from './components/ShopifyExporterModal';
 import { TrustBadgesAndFooter } from './components/TrustBadgesAndFooter';
+import { LiveSalesPopup } from './components/LiveSalesPopup';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Toast, ToastMessage } from './components/Toast';
 
 import { 
@@ -189,7 +195,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Hind_Siliguri',_'Plus_Jakarta_Sans',_sans-serif]">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Hind_Siliguri',_'Plus_Jakarta_Sans',_sans-serif] pb-16 md:pb-0">
       
       {/* Top Navbar Header */}
       <Header
@@ -209,13 +215,28 @@ export default function App() {
         
         {/* TAB 1: Home View */}
         {activeTab === 'home' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <HeroSlider
               onShopClick={() => {
                 setActiveTab('shop');
                 window.scrollTo({ top: 500, behavior: 'smooth' });
               }}
               onTrackClick={() => setActiveTab('track_order')}
+            />
+
+            <CategoryCircles
+              selectedCategory={selectedCategory}
+              setSelectedCategory={(id) => {
+                setSelectedCategory(id);
+                setActiveTab('shop');
+              }}
+            />
+
+            <FlashSaleTimer
+              onShopClick={() => {
+                setActiveTab('special_offers');
+                window.scrollTo({ top: 300, behavior: 'smooth' });
+              }}
             />
 
             <ProductGrid
@@ -229,6 +250,8 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onQuickView={(p) => setQuickViewProduct(p)}
             />
+
+            <CustomerReviews />
           </div>
         )}
 
@@ -315,6 +338,20 @@ export default function App() {
       <ShopifyExporterModal
         isOpen={shopifyModalOpen}
         onClose={() => setShopifyModalOpen(false)}
+      />
+
+      {/* Live Sales Notification Toast */}
+      <LiveSalesPopup />
+
+      {/* Floating WhatsApp Support Button */}
+      <FloatingWhatsApp />
+
+      {/* Mobile Sticky Bottom Navigation Bar */}
+      <MobileBottomNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        cartCount={cartItems.reduce((a, b) => a + b.quantity, 0)}
+        onOpenCart={() => setCartOpen(true)}
       />
 
       {/* Global Toast Notification */}

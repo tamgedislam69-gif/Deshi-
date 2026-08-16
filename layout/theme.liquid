@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#0f172a">
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
@@ -20,10 +20,15 @@
     {% endif %}
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Meta Pixel / Facebook Pixel & Multi-Pixel / CAPI Hook -->
+    <!-- Insert Facebook Pixel Code (Pixel ID: 1234567890) Here -->
+    <!-- Insert TikTok Pixel & Google Tag Manager (GTM-XXXXX) Code Here -->
+
     {{ content_for_header }}
   </head>
 
-  <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans">
+  <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans pb-16 md:pb-0">
     {% section 'announcement-bar' %}
     {% section 'header' %}
 
@@ -32,6 +37,19 @@
     </main>
 
     {% section 'footer' %}
+
+    <!-- Floating WhatsApp Chat Button -->
+    <a href="https://wa.me/8801700000000?text=Hello" target="_blank" class="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-4 py-3 rounded-full shadow-2xl transition-all">
+      <span class="text-xs">হোয়াটসঅ্যাপ চ্যাট</span>
+    </a>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950 text-slate-300 py-2.5 px-4 flex items-center justify-around text-center text-xs border-t border-slate-800">
+      <a href="/" class="hover:text-amber-400 font-bold">হোম</a>
+      <a href="/collections/all" class="hover:text-amber-400 font-bold">শপ</a>
+      <a href="/pages/order-tracking" class="hover:text-amber-400 font-bold text-amber-400">ট্র্যাকিং</a>
+      <a href="https://wa.me/8801700000000" target="_blank" class="text-emerald-400 font-bold">হোয়াটসঅ্যাপ</a>
+    </div>
 
     <script>
       function openCODModal(variantId, title, price) {

@@ -1,0 +1,119 @@
+{% comment %}
+  DeshiStore Customer Reviews & Star Ratings Section
+{% endcomment %}
+
+<section class="max-w-7xl mx-auto px-4 py-12 space-y-8">
+  <div class="text-center space-y-2">
+    <div class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 font-bold text-xs px-3.5 py-1 rounded-full border border-emerald-200">
+      <span>★ ১০০% স্যাটিসফাইড কাস্টমার রিভিউ</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+      {{ section.settings.title | default: 'আমাদের সম্মানিত কাস্টমারদের মতামত' }}
+    </h2>
+    <p class="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto font-medium">
+      সারাদেশের হাজারো সন্তুষ্ট গ্রাহকের বিশ্বাস ও ভালোলাগার অনুভূতি
+    </p>
+
+    <div class="flex items-center justify-center gap-3 pt-2">
+      <div class="flex text-amber-400 text-lg">★★★★★</div>
+      <span class="text-sm font-extrabold text-slate-900">৪.৯ / ৫.০ রেটিং</span>
+      <span class="text-xs text-slate-500 font-bold">(১,২৪০+ ভেরিফাইড অর্ডার)</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Review 1 -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-lg space-y-4 flex flex-col justify-between">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-sm">★★★★★</div>
+          <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+            ✓ ভেরিফাইড ক্রেতা
+          </span>
+        </div>
+        <p class="text-xs font-black text-amber-600 uppercase tracking-wider">রয়্যাল হেরিটেজ কম্বড কটন পাঞ্জাবি</p>
+        <p class="text-xs text-slate-700 leading-relaxed font-medium italic">
+          "মাশাল্লাহ কাপড় খুবই সফট এবং সেলাই এর ফিনিশিং এক কথায় দারুণ। ২৪ ঘণ্টার মধ্যে ডেলিভারি পেয়েছি। কুরিয়ারম্যানের সামনে চেক করে টাকা দেওয়ার সুযোগটা সবচেয়ে ভালো লেগেছে!"
+        </p>
+      </div>
+      <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-slate-900 text-amber-400 font-black flex items-center justify-center text-sm">
+          স
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-slate-900">মোঃ সাইফুর রহমান</h4>
+          <p class="text-[11px] text-slate-500 font-semibold">মিরপুর, ঢাকা • ৩ দিন আগে</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-lg space-y-4 flex flex-col justify-between">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-sm">★★★★★</div>
+          <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+            ✓ ভেরিফাইড ক্রেতা
+          </span>
+        </div>
+        <p class="text-xs font-black text-amber-600 uppercase tracking-wider">ঢাকাই জামদানি শাড়ি</p>
+        <p class="text-xs text-slate-700 leading-relaxed font-medium italic">
+          "ছবিতে যেমন দেখেছি হুবহু তেমনই পেয়েছি। সুতার বুনন একদম নিখুঁত এবং পরতে ভীষণ কমফোর্টেবল। প্যাকেজিং অনেক সুন্দর ছিল। থ্যাংক ইউ!"
+        </p>
+      </div>
+      <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
+          ত
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-slate-900">তাহমিনা পারভীন</h4>
+          <p class="text-[11px] text-slate-500 font-semibold">হালিশহর, চট্টগ্রাম • ৫ দিন আগে</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-lg space-y-4 flex flex-col justify-between">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-sm">★★★★★</div>
+          <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+            ✓ ভেরিফাইড ক্রেতা
+          </span>
+        </div>
+        <p class="text-xs font-black text-amber-600 uppercase tracking-wider">১০০% পিওর লেদার এক্সিকিউটিভ ওয়ালেট</p>
+        <p class="text-xs text-slate-700 leading-relaxed font-medium italic">
+          "অরিজিনাল জেনুইন লেদার! ফিনিশিং চমৎকার, ৮টি কার্ড ও ক্যাশ সুন্দরভাবে ফিট করে। ৫ বছরের ওয়ারেন্টি কার্ড সাথে ছিল। ফুললি স্যাটিসফাইড।"
+        </p>
+      </div>
+      <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-slate-800 text-white font-black flex items-center justify-center text-sm">
+          ত
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-slate-900">তানভীর আহমেদ</h4>
+          <p class="text-[11px] text-slate-500 font-semibold">জিন্দাবাজার, সিলেট • ১ সপ্তাহ আগে</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "আমাদের সম্মানিত কাস্টমারদের মতামত"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews"
+    }
+  ]
+}
+{% endschema %}

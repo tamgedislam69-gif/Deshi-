@@ -80,6 +80,122 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
 {% endschema %}`
   },
   {
+    id: 'category-circles',
+    title: 'Category Circles Section',
+    filename: 'sections/category-circles.liquid',
+    description: 'Round category icons/avatars with quick navigation links.',
+    code: `{% comment %}
+  DeshiStore Round Category Circles Section
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 py-6">
+  <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 mb-4">
+    <h3 class="text-xs font-black uppercase tracking-wider text-slate-500">জনপ্রিয় ক্যাটাগরি</h3>
+    <a href="/collections/all" class="text-xs font-bold text-amber-600 hover:underline">সব ক্যাটালগ &rarr;</a>
+  </div>
+
+  <div class="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-2 scrollbar-none">
+    {% for collection in collections limit: 6 %}
+      <a href="{{ collection.url }}" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-2 border-slate-200 group-hover:border-amber-500 flex items-center justify-center shadow-md overflow-hidden p-1">
+          {% if collection.image %}
+            <img src="{{ collection.image | image_url: width: 200 }}" alt="{{ collection.title }}" class="w-full h-full object-cover rounded-full">
+          {% else %}
+            <span class="text-2xl">🛍️</span>
+          {% endif %}
+        </div>
+        <span class="text-xs font-bold text-slate-800 group-hover:text-amber-600 text-center max-w-[85px] truncate">
+          {{ collection.title }}
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category Circles",
+  "presets": [{ "name": "Category Circles" }]
+}
+{% endschema %}`
+  },
+  {
+    id: 'flash-sale',
+    title: 'Flash Sale Countdown Section',
+    filename: 'sections/flash-sale.liquid',
+    description: 'Urgent countdown timer with stock bar and promo CTA.',
+    code: `{% comment %}
+  DeshiStore Flash Sale Section
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 my-8">
+  <div class="bg-gradient-to-r from-slate-950 via-amber-950 to-slate-950 rounded-3xl p-6 sm:p-8 text-white border border-amber-500/30 shadow-2xl relative overflow-hidden">
+    <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-rose-600 text-white font-black text-xs px-3.5 py-1 rounded-full shadow-lg">
+          <span>🔥 ফ্ল্যাশ সেল - ৪০% পর্যন্ত ছাড়!</span>
+        </div>
+        <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          {{ section.settings.heading | default: 'সীমিত সময়ের মেগা অফার' }}
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 font-medium max-w-md">
+          {{ section.settings.subheading | default: 'অফারটি শেষ হওয়ার আগেই আপনার পছন্দের পণ্য ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার কনফার্ম করুন।' }}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-slate-900 border border-amber-500/40 rounded-2xl flex items-center justify-center text-xl font-black font-mono text-amber-400" id="timer-hours">05</div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase mt-1">ঘণ্টা</span>
+        </div>
+        <span class="text-xl font-bold text-amber-400 pb-4">:</span>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-slate-900 border border-amber-500/40 rounded-2xl flex items-center justify-center text-xl font-black font-mono text-amber-400" id="timer-minutes">42</div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase mt-1">মিনিট</span>
+        </div>
+        <span class="text-xl font-bold text-amber-400 pb-4">:</span>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-rose-600 text-white rounded-2xl flex items-center justify-center text-xl font-black font-mono shadow-inner animate-pulse" id="timer-seconds">19</div>
+          <span class="text-[10px] font-bold text-rose-400 uppercase mt-1">সেকেন্ড</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Flash Sale Countdown",
+  "presets": [{ "name": "Flash Sale Countdown" }]
+}
+{% endschema %}`
+  },
+  {
+    id: 'customer-reviews',
+    title: 'Customer Reviews Section',
+    filename: 'sections/customer-reviews.liquid',
+    description: 'Verified customer review grid with star ratings and social proof.',
+    code: `{% comment %}
+  DeshiStore Customer Reviews & Star Ratings
+{% endcomment %}
+
+<section class="max-w-7xl mx-auto px-4 py-12 space-y-8">
+  <div class="text-center space-y-2">
+    <div class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 font-bold text-xs px-3.5 py-1 rounded-full border border-emerald-200">
+      <span>★ ১০০% স্যাটিসফাইড কাস্টমার রিভিউ</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">আমাদের সম্মানিত কাস্টমারদের মতামত</h2>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "presets": [{ "name": "Customer Reviews" }]
+}
+{% endschema %}`
+  },
+  {
     id: 'product-card',
     title: 'Product Card Snippet',
     filename: 'snippets/product-card.liquid',
@@ -120,33 +236,6 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
       <a href="{{ product.url }}">{{ product.title }}</a>
     </h3>
 
-    <!-- Dynamic Options Preview (Color & Size) -->
-    {% for option in product.options_with_values %}
-      {% assign downcased_option = option.name | downcase %}
-      {% if downcased_option contains 'color' or downcased_option contains 'কালার' or downcased_option contains 'রং' %}
-        <div class="mt-2 flex items-center gap-1.5">
-          <span class="text-[10px] text-slate-400 font-bold uppercase">কালার:</span>
-          <div class="flex items-center gap-1">
-            {% for value in option.values limit: 4 %}
-              <span class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-slate-200 inline-block" title="{{ value }}"></span>
-            {% endfor %}
-            {% if option.values.size > 4 %}
-              <span class="text-[9px] text-slate-500 font-bold">+{{ option.values.size | minus: 4 }}</span>
-            {% endif %}
-          </div>
-        </div>
-      {% elsif downcased_option contains 'size' or downcased_option contains 'সাইজ' %}
-        <div class="mt-1.5 flex items-center gap-1">
-          <span class="text-[10px] text-slate-400 font-bold uppercase">সাইজ:</span>
-          <div class="flex items-center gap-1">
-            {% for value in option.values limit: 4 %}
-              <span class="text-[10px] font-bold px-1.5 py-0.5 bg-slate-100 rounded text-slate-700 border border-slate-200">{{ value }}</span>
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
-    {% endfor %}
-
     <!-- Price -->
     <div class="mt-3 flex items-baseline gap-2">
       <span class="text-xl font-extrabold text-amber-600">
@@ -165,130 +254,10 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
               onclick="openCODModal('{{ product.selected_or_first_available_variant.id }}', '{{ product.title | escape }}', '{{ product.price | money_without_currency }}')"
               class="flex-1 bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-sm py-2.5 px-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
         <span>অর্ডার করুন</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
   </div>
 </div>`
-  },
-  {
-    id: 'main-product',
-    title: 'Product Single Page Section',
-    filename: 'sections/main-product.liquid',
-    description: 'Full Product Page template with color swatches, size selector pills, inventory status, WhatsApp button, and Cash on Delivery instant order form.',
-    code: `{% comment %}
-  DeshiStore Main Product Section
-  Reads Shopify Product, Variants, Colors, Sizes, Description, and Images
-{% endcomment %}
-
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-    
-    <!-- Image Gallery -->
-    <div class="space-y-4">
-      <div class="aspect-square bg-slate-100 rounded-3xl overflow-hidden border border-slate-200">
-        <img id="main-product-image" 
-             src="{{ product.featured_image | image_url: width: 1000 }}" 
-             alt="{{ product.title }}" 
-             class="w-full h-full object-cover" />
-      </div>
-
-      {% if product.images.size > 1 %}
-        <div class="flex gap-3 overflow-x-auto pb-2">
-          {% for image in product.images %}
-            <button onclick="document.getElementById('main-product-image').src='{{ image | image_url: width: 1000 }}'"
-                    class="w-20 h-20 rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-amber-500 transition-colors shrink-0">
-              <img src="{{ image | image_url: width: 200 }}" class="w-full h-full object-cover" />
-            </button>
-          {% endfor %}
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- Product Details & Variant Picker -->
-    <div class="space-y-6">
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900">{{ product.title }}</h1>
-        {% if product.selected_or_first_available_variant.sku != blank %}
-          <span class="text-xs font-mono text-slate-500 mt-1 block">SKU: {{ product.selected_or_first_available_variant.sku }}</span>
-        {% endif %}
-      </div>
-
-      <!-- Price -->
-      <div class="flex items-baseline gap-3">
-        <span class="text-3xl font-black text-amber-600">৳{{ product.price | money_without_currency }}</span>
-        {% if product.compare_at_price > product.price %}
-          <span class="text-lg text-slate-400 line-through">৳{{ product.compare_at_price | money_without_currency }}</span>
-          {% assign save_amount = product.compare_at_price | minus: product.price %}
-          <span class="bg-rose-100 text-rose-700 font-bold text-xs px-2.5 py-1 rounded-full">৳{{ save_amount | money_without_currency }} সেভ</span>
-        {% endif %}
-      </div>
-
-      <!-- Shopify Dynamic Variant Selectors (Color / Size) -->
-      <form action="/cart/add" method="post" id="add-to-cart-form" class="space-y-5">
-        <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" />
-
-        {% for option in product.options_with_values %}
-          <div class="space-y-2">
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-              {{ option.name }}: <span class="text-amber-600" id="selected-{{ option.name | handle }}">{{ option.selected_value }}</span>
-            </label>
-            <div class="flex flex-wrap gap-2">
-              {% for value in option.values %}
-                <button type="button" 
-                        onclick="selectVariantOption('{{ option.name | handle }}', '{{ value | escape }}')"
-                        class="px-4 py-2 rounded-xl text-xs font-bold border border-slate-300 hover:border-amber-500 transition-all">
-                  {{ value }}
-                </button>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-
-        <!-- Quantity & Order CTA Buttons -->
-        <div class="pt-4 border-t border-slate-200 space-y-3">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button type="button" 
-                    onclick="openCODModal('{{ product.selected_or_first_available_variant.id }}', '{{ product.title | escape }}', '{{ product.price | money_without_currency }}')"
-                    class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-4 rounded-2xl text-base shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
-              <span>অর্ডার করুন (ক্যাশ অন ডেলিভারি)</span>
-            </button>
-
-            {% if section.settings.whatsapp_number != blank %}
-              <a href="https://wa.me/{{ section.settings.whatsapp_number }}?text=Hello,%20I%20want%20to%20order%20{{ product.title | url_encode }}" 
-                 target="_blank"
-                 class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl text-base shadow-md flex items-center justify-center gap-2">
-                <span>হোয়াটসঅ্যাপে সরাসরি অর্ডার</span>
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      </form>
-
-      <!-- Product Description -->
-      <div class="pt-6 border-t border-slate-200 text-slate-700 text-sm leading-relaxed">
-        <h3 class="font-bold text-slate-900 text-base mb-2">পণ্যের বিবরণ:</h3>
-        <div class="prose max-w-none">{{ product.description }}</div>
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
-{% schema %}
-{
-  "name": "Main Product Section",
-  "settings": [
-    {
-      "type": "text",
-      "id": "whatsapp_number",
-      "label": "WhatsApp Hotline Number",
-      "default": "8801700000000"
-    }
-  ]
-}
-{% endschema %}`
   },
   {
     id: 'cod-checkout',
@@ -297,7 +266,6 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
     description: 'Instant 1-Click COD order popup with Bangladeshi 11-digit mobile validation, embedded color/size swatches, discount coupon, and unselected delivery zone requirements.',
     code: `{% comment %}
   DeshiStore Cash on Delivery Section
-  Includes Delivery Rate Switcher (Dhaka: ৳60 / Outside Dhaka: ৳120) with no preselection and Promo Coupon
 {% endcomment %}
 
 <div id="cod-checkout-modal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
@@ -311,32 +279,6 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
     </div>
 
     <form action="/cart/add" method="post" class="p-6 space-y-4 overflow-y-auto">
-      
-      <!-- Embedded Product Variant Pickers (Color & Size) -->
-      <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-        <p class="text-xs font-bold text-slate-800">অর্ডারের পণ্য, কালার ও সাইজ পছন্দ করুন:</p>
-        
-        {% for option in product.options_with_values %}
-          <div class="text-xs">
-            <span class="font-bold text-slate-600">{{ option.name }}:</span>
-            <select name="options[{{ option.name | escape }}]" class="ml-2 bg-white px-2 py-1 rounded border border-slate-300 font-bold text-slate-800">
-              {% for value in option.values %}
-                <option value="{{ value | escape }}">{{ value }}</option>
-              {% endfor %}
-            </select>
-          </div>
-        {% endfor %}
-      </div>
-
-      <!-- Coupon Discount Code Field -->
-      <div>
-        <label class="block text-xs font-bold text-slate-700 mb-1">ডিসকাউন্ট কুপন কোড (Promo Code)</label>
-        <div class="flex gap-2">
-          <input type="text" id="discount-code-input" placeholder="DESHI10 বা WELCOME100" class="flex-1 px-3 py-2 text-xs font-mono font-bold uppercase rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none" />
-          <button type="button" onclick="applyPromoDiscount()" class="bg-slate-900 text-amber-400 font-bold px-3 py-2 rounded-xl text-xs">এপ্লাই</button>
-        </div>
-      </div>
-
       <div>
         <label class="block text-xs font-bold text-slate-700 mb-1">আপনার পূর্ণ নাম *</label>
         <input type="text" required name="attributes[Customer Name]" placeholder="উদাহরণ: মোঃ তামজিদ ইসলাম" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none" />
@@ -348,22 +290,19 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-700 mb-1 flex justify-between">
-          <span>ডেলিভারি এলাকা নির্বাচন করুন *</span>
-          <span class="text-[10px] text-amber-600 font-bold">আগে সিলেক্ট করা নেই</span>
-        </label>
+        <label class="block text-xs font-bold text-slate-700 mb-1">ডেলিভারি এলাকা নির্বাচন করুন *</label>
         <div class="grid grid-cols-2 gap-3">
-          <label class="border border-slate-300 hover:border-amber-500 p-3 rounded-xl flex items-center justify-between cursor-pointer transition-all">
+          <label class="border border-slate-300 hover:border-amber-500 p-3 rounded-xl flex items-center justify-between cursor-pointer">
             <div>
               <span class="block text-xs font-bold text-slate-900">ঢাকা সিটির ভেতরে</span>
-              <span class="text-xs font-semibold text-amber-600">৳{{ section.settings.charge_inside_dhaka }}</span>
+              <span class="text-xs font-semibold text-amber-600">৳৬০</span>
             </div>
             <input type="radio" required name="attributes[Delivery Zone]" value="Inside Dhaka" class="accent-amber-500" />
           </label>
-          <label class="border border-slate-300 hover:border-amber-500 p-3 rounded-xl flex items-center justify-between cursor-pointer transition-all">
+          <label class="border border-slate-300 hover:border-amber-500 p-3 rounded-xl flex items-center justify-between cursor-pointer">
             <div>
               <span class="block text-xs font-bold text-slate-900">ঢাকা সিটির বাইরে</span>
-              <span class="text-xs font-semibold text-amber-600">৳{{ section.settings.charge_outside_dhaka }}</span>
+              <span class="text-xs font-semibold text-amber-600">৳১২০</span>
             </div>
             <input type="radio" required name="attributes[Delivery Zone]" value="Outside Dhaka" class="accent-amber-500" />
           </label>
@@ -375,75 +314,11 @@ export const SHOPIFY_LIQUID_TEMPLATES: LiquidTemplate[] = [
         <textarea required name="attributes[Delivery Address]" rows="2" placeholder="বাসা নম্বর, রোড নম্বর, এলাকা, থানা ও জেলা" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none"></textarea>
       </div>
 
-      <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-extrabold py-4 px-6 rounded-2xl shadow-lg transition-all text-base flex items-center justify-center gap-2 cursor-pointer">
+      <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-4 px-6 rounded-2xl shadow-lg transition-all text-base flex items-center justify-center gap-2 cursor-pointer">
         <span>অর্ডার কনফার্ম করুন (ক্যাশ অন ডেলিভারি)</span>
       </button>
     </form>
   </div>
-</div>
-
-{% schema %}
-{
-  "name": "COD Checkout Settings",
-  "settings": [
-    {
-      "type": "number",
-      "id": "charge_inside_dhaka",
-      "label": "Inside Dhaka Shipping Fee (BDT)",
-      "default": 60
-    },
-    {
-      "type": "number",
-      "id": "charge_outside_dhaka",
-      "label": "Outside Dhaka Shipping Fee (BDT)",
-      "default": 120
-    }
-  ]
-}
-{% endschema %}`
-  },
-  {
-    id: 'schema-settings',
-    title: 'Global Theme Schema Settings JSON',
-    filename: 'config/settings_schema.json',
-    description: 'Shopify Customizer schema definition for store brand colors, delivery rates, and phone numbers.',
-    code: `{
-  "name": "DeshiStore Theme Settings",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Store Branding"
-    },
-    {
-      "type": "text",
-      "id": "store_name",
-      "label": "Store Brand Name",
-      "default": "DeshiStore"
-    },
-    {
-      "type": "color",
-      "id": "primary_cta_color",
-      "label": "Primary CTA Color (Amber/Gold)",
-      "default": "#f59e0b"
-    },
-    {
-      "type": "header",
-      "content": "Delivery & COD Rates"
-    },
-    {
-      "type": "number",
-      "id": "fee_inside_dhaka",
-      "label": "Inside Dhaka Delivery Fee (৳)",
-      "default": 60
-    },
-    {
-      "type": "number",
-      "id": "fee_outside_dhaka",
-      "label": "Outside Dhaka Delivery Fee (৳)",
-      "default": 120
-    }
-  ]
-}`
+</div>`
   }
 ];
-

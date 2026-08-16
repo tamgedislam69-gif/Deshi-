@@ -1,0 +1,66 @@
+{% comment %}
+  DeshiStore Round Category Circles Section
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 py-6">
+  <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 mb-4">
+    <h3 className="text-xs font-black uppercase tracking-wider text-slate-500">
+      জনপ্রিয় ক্যাটাগরি
+    </h3>
+    <a href="/collections/all" class="text-xs font-bold text-amber-600 hover:underline">সব ক্যাটালগ &rarr;</a>
+  </div>
+
+  <div class="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-2 scrollbar-none">
+    {% for collection in collections limit: 6 %}
+      <a href="{{ collection.url }}" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-2 border-slate-200 group-hover:border-amber-500 flex items-center justify-center shadow-md overflow-hidden p-1">
+          {% if collection.image %}
+            <img src="{{ collection.image | image_url: width: 200 }}" alt="{{ collection.title }}" class="w-full h-full object-cover rounded-full">
+          {% else %}
+            <span class="text-2xl">🛍️</span>
+          {% endif %}
+        </div>
+        <span class="text-xs font-bold text-slate-800 group-hover:text-amber-600 text-center max-w-[85px] truncate">
+          {{ collection.title }}
+        </span>
+      </a>
+    {% else %}
+      <!-- Fallback Categories -->
+      <a href="/collections/all" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-2xl shadow-lg ring-4 ring-amber-500/20">
+          👔
+        </div>
+        <span class="text-xs font-bold text-slate-900 text-center">পুরুষের পোশাক</span>
+      </a>
+      <a href="/collections/all" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-2 border-slate-200 text-slate-800 font-black flex items-center justify-center text-2xl shadow-md">
+          👗
+        </div>
+        <span class="text-xs font-bold text-slate-700 text-center">নারীদের ফ্যাশন</span>
+      </a>
+      <a href="/collections/all" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-2 border-slate-200 text-slate-800 font-black flex items-center justify-center text-2xl shadow-md">
+          🎧
+        </div>
+        <span class="text-xs font-bold text-slate-700 text-center">গ্যাজেট ও টেক</span>
+      </a>
+      <a href="/collections/all" class="flex flex-col items-center gap-2 shrink-0 group transition-transform hover:scale-105">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-2 border-slate-200 text-slate-800 font-black flex items-center justify-center text-2xl shadow-md">
+          👞
+        </div>
+        <span class="text-xs font-bold text-slate-700 text-center">লেদার ওয়ালেট</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category Circles",
+  "presets": [
+    {
+      "name": "Category Circles"
+    }
+  ]
+}
+{% endschema %}

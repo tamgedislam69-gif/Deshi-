@@ -1,0 +1,101 @@
+{% comment %}
+  DeshiStore Flash Sale Section with Countdown Timer
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 my-8">
+  <div class="bg-gradient-to-r from-slate-950 via-amber-950 to-slate-950 rounded-3xl p-6 sm:p-8 text-white border border-amber-500/30 shadow-2xl relative overflow-hidden">
+    
+    <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+      
+      <!-- Text & Title -->
+      <div class="space-y-2 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-rose-600 text-white font-black text-xs px-3.5 py-1 rounded-full shadow-lg">
+          <span>🔥 ফ্ল্যাশ সেল - ৪০% পর্যন্ত ছাড়!</span>
+        </div>
+        <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          {{ section.settings.heading | default: 'সীমিত সময়ের মেগা অফার' }}
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 font-medium max-w-md">
+          {{ section.settings.subheading | default: 'অফারটি শেষ হওয়ার আগেই আপনার পছন্দের পণ্য ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার কনফার্ম করুন।' }}
+        </p>
+      </div>
+
+      <!-- Live JS Timer -->
+      <div class="flex items-center gap-3" id="shopify-flash-timer">
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-slate-900 border border-amber-500/40 rounded-2xl flex items-center justify-center text-xl font-black font-mono text-amber-400" id="timer-hours">05</div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase mt-1">ঘণ্টা</span>
+        </div>
+        <span class="text-xl font-bold text-amber-400 pb-4">:</span>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-slate-900 border border-amber-500/40 rounded-2xl flex items-center justify-center text-xl font-black font-mono text-amber-400" id="timer-minutes">42</div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase mt-1">মিনিট</span>
+        </div>
+        <span class="text-xl font-bold text-amber-400 pb-4">:</span>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-rose-600 text-white rounded-2xl flex items-center justify-center text-xl font-black font-mono shadow-inner animate-pulse" id="timer-seconds">19</div>
+          <span class="text-[10px] font-bold text-rose-400 uppercase mt-1">সেকেন্ড</span>
+        </div>
+      </div>
+
+      <!-- Stock Bar & Button -->
+      <div class="space-y-3 w-full lg:w-auto text-center lg:text-right">
+        <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 space-y-1.5 max-w-xs mx-auto lg:mx-0">
+          <div class="flex justify-between text-xs font-bold text-slate-300">
+            <span>স্টক বিক্রি হয়েছে:</span>
+            <span class="text-amber-400 font-extrabold">৮৪%</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-rose-500 h-full w-[84%] rounded-full"></div>
+          </div>
+          <p class="text-[10px] text-slate-400 font-medium text-left">⚡ মাত্র ১৮টি স্টক বাকি আছে!</p>
+        </div>
+
+        <a href="#featured-products" class="inline-block w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-6 py-3 rounded-xl text-xs sm:text-sm shadow-xl transition-all">
+          অফারের পণ্যসমূহ দেখুন &rarr;
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var h = 5, m = 42, s = 19;
+    setInterval(function() {
+      s--;
+      if (s < 0) { s = 59; m--; }
+      if (m < 0) { m = 59; h--; }
+      if (h < 0) { h = 12; }
+      document.getElementById('timer-hours').innerText = h < 10 ? '0' + h : h;
+      document.getElementById('timer-minutes').innerText = m < 10 ? '0' + m : m;
+      document.getElementById('timer-seconds').innerText = s < 10 ? '0' + s : s;
+    }, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Flash Sale Countdown",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "সীমিত সময়ের মেগা অফার"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "অফারটি শেষ হওয়ার আগেই আপনার পছন্দের পণ্য ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার কনফার্ম করুন।"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash Sale Countdown"
+    }
+  ]
+}
+{% endschema %}
