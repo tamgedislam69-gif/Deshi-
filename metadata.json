@@ -1,0 +1,6 @@
+{
+  "name": "DeshiStore E-Commerce",
+  "description": "Modern Bangladeshi e-commerce UI with Cash on Delivery quick checkout, order tracking, admin order management, and Shopify Liquid compatibility.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
