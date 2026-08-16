@@ -1,0 +1,134 @@
+{% comment %}
+  DeshiStore Premium Hero Banner Section
+  Fully customizable via Shopify Theme Editor
+{% endcomment %}
+
+<section class="relative bg-slate-950 text-white overflow-hidden py-12 md:py-20">
+  <!-- Subtle Background Glows -->
+  <div class="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    
+    <!-- Hero Text Content -->
+    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+      {% if section.settings.offer_badge != blank %}
+        <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-extrabold text-xs px-3.5 py-1.5 rounded-full">
+          <span class="w-2 h-2 bg-amber-400 rounded-full animate-ping"></span>
+          <span>{{ section.settings.offer_badge }}</span>
+        </div>
+      {% endif %}
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+        {{ section.settings.title | default: 'প্রিমিয়াম কোয়ালিটি ফ্যাশন ও কার্গো জগার্স' }}
+      </h1>
+
+      <p class="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
+        {{ section.settings.subtitle | default: '১০০% অরিজিনাল কটন ফ্যাব্রিক ও আধুনিক ফিটিংসে তৈরি। পছন্দ করুন এবং সরাসরি ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি নিন।' }}
+      </p>
+
+      <!-- Bullets / Highlights -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-bold text-slate-300 max-w-xl mx-auto lg:mx-0">
+        <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>১০০% এক্সপোর্ট কটন</span>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>ক্যাশ অন ডেলিভারি</span>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl col-span-2 sm:col-span-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>৭ দিনের ইজি রিটার্ন</span>
+        </div>
+      </div>
+
+      <!-- Hero Call to Action Buttons -->
+      <div class="pt-4 flex flex-wrap gap-4 justify-center lg:justify-start">
+        <button type="button" onclick="openCODModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-8 py-4 rounded-2xl text-base shadow-xl transition-all active:scale-95 cursor-pointer flex items-center gap-2">
+          <span>{{ section.settings.primary_btn_text | default: 'এখনই অর্ডার করুন' }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        {% if section.settings.secondary_btn_text != blank %}
+          <a href="{{ section.settings.secondary_btn_link | default: '#featured-products' }}" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold px-6 py-4 rounded-2xl text-base transition-colors flex items-center gap-2">
+            <span>{{ section.settings.secondary_btn_text }}</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Hero Image Banner Frame -->
+    <div class="lg:col-span-5 relative">
+      <div class="relative rounded-3xl overflow-hidden border-2 border-slate-800 shadow-2xl group">
+        {% if section.settings.hero_image != blank %}
+          <img src="{{ section.settings.hero_image | image_url: width: 800 }}" alt="Hero Banner" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
+        {% else %}
+          <!-- Default Premium Showcase Image Banner -->
+          <div class="aspect-4/5 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950/40 flex flex-col justify-end p-8 relative overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&q=80');"></div>
+            <div class="relative z-10 space-y-2 text-left bg-slate-950/80 backdrop-blur-md p-5 rounded-2xl border border-slate-800">
+              <span class="bg-amber-500 text-slate-950 font-black text-xs px-2.5 py-1 rounded-md">মেগা ধামাকা অফার</span>
+              <p class="text-xl font-black text-white">প্রিমিয়াম এক্সপোর্ট জগার্স ও ট্রেন্ডি আউটফিট</p>
+              <p class="text-xs text-amber-300 font-bold">সারা দেশে হোম ডেলিভারি সুবিধা!</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "offer_badge",
+      "label": "Offer Badge Text",
+      "default": "🔥 ৪০% পর্যন্ত লিমিটেড ডিসকাউন্ট অফার"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Hero Banner Title",
+      "default": "প্রিমিয়াম কোয়ালিটি ফ্যাশন ও কার্গো জগার্স"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Hero Subtitle Description",
+      "default": "১০০% অরিজিনাল কটন ফ্যাব্রিক ও আধুনিক ফিটিংসে তৈরি। পছন্দ করুন এবং সরাসরি ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি নিন।"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Banner Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "primary_btn_text",
+      "label": "Primary Button Label",
+      "default": "এখনই অর্ডার করুন"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary Button Label",
+      "default": "সব পণ্য দেখুন"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner Slider"
+    }
+  ]
+}
+{% endschema %}

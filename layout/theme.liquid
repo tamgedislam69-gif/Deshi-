@@ -25,14 +25,13 @@
 
   <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans">
     {% section 'announcement-bar' %}
+    {% section 'header' %}
 
     <main id="MainContent" class="content-for-layout focus-none flex-1" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    <footer class="bg-slate-900 text-white p-6 text-center text-xs mt-12">
-      <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
-    </footer>
+    {% section 'footer' %}
 
     <script>
       function openCODModal(variantId, title, price) {

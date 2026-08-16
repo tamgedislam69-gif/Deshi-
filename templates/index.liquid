@@ -1,7 +1,13 @@
-<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+{% section 'hero-banner' %}
+{% section 'trust-badges' %}
+
+<div id="featured-products" class="max-w-7xl mx-auto px-4 py-12 space-y-8">
   <div class="text-center space-y-2">
-    <h1 class="text-3xl font-extrabold text-slate-900">{{ shop.name }} - হাই-কনভার্সন প্রোডাক্ট কালেকশন</h1>
-    <p class="text-slate-600 text-sm">পছন্দের পণ্যটি বেছে নিয়ে ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার করুন</p>
+    <div class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1 rounded-full border border-amber-200">
+      <span>🔥 হট ড্রপ কালেকশন</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">আমাদের হট সেলিং প্রোডাক্টস</h2>
+    <p class="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto">পছন্দের পণ্যটিতে ক্লিক করে সাইজ ও কালার সিলেক্ট করুন এবং ১-ক্লিকে ক্যাশ অন ডেলিভারিতে অর্ডার করুন</p>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -16,3 +22,4 @@
 
   {% section 'cod-checkout' %}
 </div>
+
