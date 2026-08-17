@@ -1,207 +1,302 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, ShieldCheck, Truck, ArrowRight, Zap, RefreshCw } from 'lucide-react';
-
-interface Slide {
-  id: number;
-  badge: string;
-  badgeBn: string;
-  heading: string;
-  headingBn: string;
-  subheading: string;
-  subheadingBn: string;
-  image: string;
-  ctaText: string;
-  ctaTextBn: string;
-  secondaryCtaText: string;
-  secondaryCtaTextBn: string;
-  discountBadge: string;
-}
-
-const HERO_SLIDES: Slide[] = [
-  {
-    id: 1,
-    badge: 'GRAND FESTIVE SALE',
-    badgeBn: 'গ্র্যান্ড ডিসকাউন্ট মেলা ২০২৬',
-    heading: 'Royal Panjabi & Traditional Silk Collection',
-    headingBn: 'রয়্যাল পাঞ্জাবি ও প্রিমিয়াম ঢাকাই জামদানি কালেকশন',
-    subheading: 'Get up to 40% OFF on 100% genuine cotton panjabis and sarees with instant Cash on Delivery across Bangladesh.',
-    subheadingBn: 'সারাদেশে ক্যাশ অন ডেলিভারিতে অরিজিনাল কটন পাঞ্জাবি ও তাঁতের জামদানি শাড়িতে পাচ্ছেন সর্বোচ্চ ৪০% ছাড়!',
-    image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=1200',
-    ctaText: 'Shop Collection',
-    ctaTextBn: 'অর্ডার করুন',
-    secondaryCtaText: 'Track Order',
-    secondaryCtaTextBn: 'ট্র্যাক করুন',
-    discountBadge: '৪০% পর্যন্ত ছাড়'
-  },
-  {
-    id: 2,
-    badge: 'NEW TECH & GADGETS',
-    badgeBn: 'লেটেস্ট গ্যাজেট স্পেশাল',
-    heading: 'Smart Watches & Crystal ANC Wireless Earbuds',
-    headingBn: 'স্মার্টওয়াচ ও নয়েজ ক্যান্সেলেশন ওয়্যারলেস ইয়ারবাডস',
-    subheading: 'Premium audio gadgets and smartwatch wearables with 1-Year Official Warranty & Fast Courier Delivery.',
-    subheadingBn: '৩৬ ঘণ্টা ব্যাটারি লাইফ, এইচডি অলওয়েজ-অন ডিসপ্লে ও ১ বছরের ওয়ারেন্টি সহ অরিজিনাল টেক গ্যাজেট।',
-    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=1200',
-    ctaText: 'Explore Tech',
-    ctaTextBn: 'গ্যাজেট দেখুন',
-    secondaryCtaText: 'View Offers',
-    secondaryCtaTextBn: 'অফার দেখুন',
-    discountBadge: 'ফ্রি শিপিং'
-  },
-  {
-    id: 3,
-    badge: '100% GENUINE LEATHER',
-    badgeBn: '১০০% অরিজিনাল লেদার',
-    heading: 'Executive Wallets & Professional Laptop Bags',
-    headingBn: 'এক্সিকিউটিভ চামড়ার ওয়ালেট ও অফিস ব্যাগ',
-    subheading: 'Full grain cow leather accessories engineered for durability, RFID protection, and executive styling.',
-    subheadingBn: '৫ বছরের লেদার ওয়ারেন্টি সহ ১০০% অরিজিনাল কাঁচা চামড়ার ওয়ালেট ও ব্যাগ। ক্যাশ অন ডেলিভারি!',
-    image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=1200',
-    ctaText: 'Buy Leather Goods',
-    ctaTextBn: 'লেদার আইটেম',
-    secondaryCtaText: 'Explore All',
-    secondaryCtaTextBn: 'সব দেখুন',
-    discountBadge: 'ক্যাশ অন ডেলিভারি'
-  }
-];
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { 
+  ChevronLeft, ChevronRight, ShieldCheck, Truck, ArrowRight, Zap, RefreshCw, 
+  Image as ImageIcon, Pause, Play, Sparkles
+} from 'lucide-react';
+import { HeroSlide, SliderTransitionEffect } from '../types';
 
 interface HeroSliderProps {
+  slides?: HeroSlide[];
+  autoSlideSpeed?: number; // in seconds
+  transitionEffect?: SliderTransitionEffect;
+  showArrows?: boolean;
+  showDots?: boolean;
   onShopClick: () => void;
   onTrackClick: () => void;
 }
 
-export const HeroSlider: React.FC<HeroSliderProps> = ({ onShopClick, onTrackClick }) => {
+export const HeroSlider: React.FC<HeroSliderProps> = ({ 
+  slides = [], 
+  autoSlideSpeed = 5, 
+  transitionEffect = 'fade',
+  showArrows = true,
+  showDots = true,
+  onShopClick, 
+  onTrackClick 
+}) => {
+  const activeSlides = (slides || []).filter((s) => s.active);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
+  const touchStartX = useRef<number | null>(null);
 
+  const goToNext = useCallback(() => {
+    if (activeSlides.length <= 1) return;
+    setSlideDirection('next');
+    setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
+  }, [activeSlides.length]);
+
+  const goToPrev = useCallback(() => {
+    if (activeSlides.length <= 1) return;
+    setSlideDirection('prev');
+    setCurrentSlide((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1));
+  }, [activeSlides.length]);
+
+  // Auto-slide timer
   useEffect(() => {
+    if (!isPlaying || activeSlides.length <= 1) return;
+    const intervalMs = Math.max(2, autoSlideSpeed) * 1000;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 6000);
+      goToNext();
+    }, intervalMs);
     return () => clearInterval(timer);
-  }, []);
+  }, [isPlaying, activeSlides.length, autoSlideSpeed, goToNext]);
 
-  const slide = HERO_SLIDES[currentSlide];
+  // Touch Swipe Handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+
+    if (Math.abs(diff) > 40) { // Threshold for swipe
+      if (diff > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
+    }
+    touchStartX.current = null;
+  };
+
+  if (activeSlides.length === 0) {
+    return (
+      <div className="bg-slate-950 text-slate-400 rounded-3xl p-8 text-center border border-slate-800 mx-4 my-4 shadow-xl">
+        <ImageIcon className="w-10 h-10 mx-auto mb-3 text-slate-600" />
+        <h4 className="text-base font-bold text-slate-200">কোনো সক্রিয় ব্যানার পাওয়া যায়নি</h4>
+        <p className="text-xs text-slate-400 mt-1">এডমিন প্যানেলে "ব্যানার স্লাইডার ম্যানেজার" থেকে পছন্দমতো যত খুশি স্লাইড যোগ ও অন করুন।</p>
+      </div>
+    );
+  }
+
+  // Ensure safe index bound
+  const safeIndex = currentSlide % activeSlides.length;
+
+  // Bengali numerals helper
+  const toBnDigit = (num: number) => {
+    const digits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return num.toString().split('').map((d) => digits[parseInt(d)] || d).join('');
+  };
 
   return (
-    <div className="relative bg-slate-950 text-white overflow-hidden rounded-3xl shadow-xl mx-4 sm:mx-6 my-4 border border-slate-800">
-      {/* Background Image Frame with Dark Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={slide.image}
-          alt={slide.heading}
-          className="w-full h-full object-cover object-center opacity-30 scale-105 transition-transform duration-1000 ease-out"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-      </div>
+    <div 
+      className="relative bg-slate-950 text-white overflow-hidden rounded-3xl shadow-2xl mx-4 sm:mx-6 my-4 border border-slate-800/90 group select-none"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Background Image Frames with Configurable Transition Effect */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {activeSlides.map((s, idx) => {
+          const isActive = idx === safeIndex;
+          
+          // CSS class generator based on transition effect
+          let transitionClasses = 'transition-all duration-700 ease-in-out absolute inset-0';
+          
+          if (transitionEffect === 'fade') {
+            transitionClasses += isActive 
+              ? ' opacity-35 scale-100 z-10' 
+              : ' opacity-0 scale-105 z-0 pointer-events-none';
+          } else if (transitionEffect === 'slide') {
+            const isPrev = (safeIndex === 0 ? activeSlides.length - 1 : safeIndex - 1) === idx;
+            if (isActive) {
+              transitionClasses += ' opacity-35 translate-x-0 z-10 scale-100';
+            } else if (slideDirection === 'next' ? isPrev : !isPrev) {
+              transitionClasses += ' opacity-0 -translate-x-full z-0 scale-95';
+            } else {
+              transitionClasses += ' opacity-0 translate-x-full z-0 scale-95';
+            }
+          } else if (transitionEffect === 'zoom') {
+            transitionClasses += isActive 
+              ? ' opacity-40 scale-105 z-10' 
+              : ' opacity-0 scale-125 z-0 pointer-events-none';
+          } else if (transitionEffect === 'flip') {
+            transitionClasses += isActive 
+              ? ' opacity-35 scale-100 rotate-0 z-10' 
+              : ' opacity-0 scale-90 -rotate-2 z-0 pointer-events-none';
+          }
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-10 sm:py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="max-w-2xl space-y-4 text-left">
-          {/* Top Promo Tag */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 bg-amber-500 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
-              <Zap className="w-3.5 h-3.5 fill-slate-950" />
-              {slide.badgeBn}
-            </span>
-            <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold text-xs px-3 py-1 rounded-full">
-              <Truck className="w-3.5 h-3.5" />
-              {slide.discountBadge}
-            </span>
-          </div>
-
-          {/* Heading */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            {slide.headingBn}
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
-            {slide.subheadingBn}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="pt-3 flex flex-wrap items-center gap-3">
-            <button
-              onClick={onShopClick}
-              className="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-black px-6 py-3.5 rounded-2xl shadow-lg hover:shadow-amber-500/20 transition-all flex items-center gap-2 text-sm sm:text-base animate-pulse-ring cursor-pointer"
-            >
-              <span>{slide.ctaTextBn}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={onTrackClick}
-              className="bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold px-5 py-3.5 rounded-2xl transition-all text-sm flex items-center gap-2 cursor-pointer"
-            >
-              <span>{slide.secondaryCtaTextBn}</span>
-            </button>
-          </div>
-
-          {/* Trust Guarantees */}
-          <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-4 text-xs text-slate-400 font-medium">
-            <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
-              <ShieldCheck className="w-4 h-4 text-amber-400" />
-              ১০০% অরিজিনাল গ্যারান্টি
-            </span>
-            <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
-              <Truck className="w-4 h-4 text-emerald-400" />
-              ক্যাশ অন ডেলিভারি (COD)
-            </span>
-            <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
-              <RefreshCw className="w-4 h-4 text-sky-400" />
-              ৭ দিনের রিটার্ন পলিসি
-            </span>
-          </div>
-        </div>
-
-        {/* Floating Product Highlight Frame (Desktop) */}
-        <div className="hidden lg:block relative shrink-0">
-          <div className="w-72 h-80 rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-2xl relative group bg-slate-900">
+          return (
             <img
-              src={slide.image}
-              alt="Highlight product"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              key={s.id}
+              src={s.image}
+              alt={s.headingBn}
+              className={`${transitionClasses} w-full h-full object-cover object-center`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 text-white">
-              <div className="text-xs font-bold text-amber-400">হট ডিল অফার</div>
-              <div className="text-xs font-medium text-slate-200 line-clamp-1">{slide.heading}</div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
+
+        {/* Gradient Overlays for High Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent z-10 pointer-events-none"></div>
       </div>
 
-      {/* Slide Navigation Arrows */}
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white border border-slate-700 backdrop-blur-xs transition-colors hidden sm:flex"
-        aria-label="Previous Slide"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
+      {/* Main Slide Content */}
+      <div className="relative z-20 max-w-7xl mx-auto px-6 py-10 sm:py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8 min-h-[380px] sm:min-h-[420px]">
+        {activeSlides.map((slide, idx) => {
+          if (idx !== safeIndex) return null;
 
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white border border-slate-700 backdrop-blur-xs transition-colors hidden sm:flex"
-        aria-label="Next Slide"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
+          return (
+            <React.Fragment key={slide.id + '-content'}>
+              <div className="max-w-2xl space-y-4 text-left transition-all duration-500 animate-fadeIn">
+                {/* Top Promo Tag */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {slide.badgeBn && (
+                    <span className="inline-flex items-center gap-1.5 bg-amber-500 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                      <Zap className="w-3.5 h-3.5 fill-slate-950" />
+                      {slide.badgeBn}
+                    </span>
+                  )}
+                  {slide.discountBadge && (
+                    <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold text-xs px-3 py-1 rounded-full">
+                      <Truck className="w-3.5 h-3.5" />
+                      {slide.discountBadge}
+                    </span>
+                  )}
+                </div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-        {HERO_SLIDES.map((_, idx) => (
+                {/* Main Heading */}
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                  {slide.headingBn}
+                </h1>
+
+                {/* Subheading */}
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
+                  {slide.subheadingBn}
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="pt-3 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={onShopClick}
+                    className="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-black px-6 py-3.5 rounded-2xl shadow-lg hover:shadow-amber-500/20 transition-all flex items-center gap-2 text-sm sm:text-base cursor-pointer"
+                  >
+                    <span>{slide.ctaTextBn || '🛒 এখন অর্ডার করুন'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    onClick={onTrackClick}
+                    className="bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold px-5 py-3.5 rounded-2xl transition-all text-sm flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>{slide.secondaryCtaTextBn || 'বিস্তারিত দেখুন'}</span>
+                  </button>
+                </div>
+
+                {/* Trust Guarantees */}
+                <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-4 text-xs text-slate-400 font-medium">
+                  <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                    <ShieldCheck className="w-4 h-4 text-amber-400" />
+                    ১০০% অরিজিনাল কোয়ালিটি
+                  </span>
+                  <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                    <Truck className="w-4 h-4 text-emerald-400" />
+                    ক্যাশ অন ডেলিভারি (COD)
+                  </span>
+                  <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                    <RefreshCw className="w-4 h-4 text-sky-400" />
+                    ৭ দিনের সহজ রিটার্ন
+                  </span>
+                </div>
+              </div>
+
+              {/* Floating Product Highlight Thumbnail Frame (Desktop) */}
+              <div className="hidden lg:block relative shrink-0">
+                <div className="w-72 h-80 rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-2xl relative group bg-slate-900/80 backdrop-blur-md">
+                  <img
+                    src={slide.image}
+                    alt={slide.headingBn}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 text-white">
+                    <div className="text-xs font-bold text-amber-400 flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>বিশেষ আকর্ষণ</span>
+                    </div>
+                    <div className="text-xs font-medium text-slate-200 line-clamp-1">{slide.headingBn}</div>
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Top Controls Bar: Play/Pause Toggle & Slide Counter Badge */}
+      <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
+        {/* Slide Counter */}
+        {activeSlides.length > 1 && (
+          <span className="bg-slate-950/80 backdrop-blur-md text-amber-400 font-mono font-bold text-xs px-3 py-1 rounded-full border border-slate-800 shadow-md">
+            {toBnDigit(safeIndex + 1)} / {toBnDigit(activeSlides.length)}
+          </span>
+        )}
+
+        {/* Auto-Slide Pause/Play Button */}
+        {activeSlides.length > 1 && (
           <button
-            key={idx}
-            onClick={() => setCurrentSlide(idx)}
-            className={`h-2 rounded-full transition-all ${
-              idx === currentSlide ? 'w-8 bg-amber-500' : 'w-2 bg-slate-600 hover:bg-slate-400'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white p-1.5 rounded-full border border-slate-800 transition-colors cursor-pointer shadow-md"
+            title={isPlaying ? 'স্লাইড ফ্রিজ করুন (Pause)' : 'অটো স্লাইড চালু করুন (Play)'}
+          >
+            {isPlaying ? <Pause className="w-3.5 h-3.5 text-amber-400" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
+          </button>
+        )}
       </div>
+
+      {/* Navigation Arrows */}
+      {showArrows && activeSlides.length > 1 && (
+        <>
+          <button
+            onClick={goToPrev}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-30 p-3 rounded-2xl bg-slate-950/70 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-800/80 backdrop-blur-md transition-all shadow-xl hidden sm:flex cursor-pointer items-center justify-center active:scale-90"
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={goToNext}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-30 p-3 rounded-2xl bg-slate-950/70 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-800/80 backdrop-blur-md transition-all shadow-xl hidden sm:flex cursor-pointer items-center justify-center active:scale-90"
+            aria-label="Next Slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
+
+      {/* Pagination Dots */}
+      {showDots && activeSlides.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-slate-950/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-800/80 shadow-lg">
+          {activeSlides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setSlideDirection(idx > safeIndex ? 'next' : 'prev');
+                setCurrentSlide(idx);
+              }}
+              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                idx === safeIndex 
+                  ? 'w-7 bg-amber-500 shadow-md shadow-amber-500/50' 
+                  : 'w-2.5 bg-slate-600 hover:bg-slate-400'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

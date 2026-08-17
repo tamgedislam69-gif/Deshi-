@@ -1,4 +1,77 @@
-import { Product, DistrictInfo, Order } from '../types';
+import { Product, DistrictInfo, Order, HeroSlide, SiteSettings } from '../types';
+
+export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  enableLiveSalesPopup: false, // Disabled as requested
+  enableFlashSaleTimer: false, // Disabled as requested
+  autoSlideSpeed: 5,
+  slideTransitionEffect: 'fade',
+  showSliderArrows: true,
+  showSliderDots: true,
+  storeName: 'SHOP MIX ONLINE BD',
+  announcementText: 'ফ্রি ডেলিভারি অফার পেতে এখনই অর্ডার করুন!',
+  showAnnouncementBar: true,
+  whatsappHotline: '01771357329',
+  showHotline: true,
+  storeTagline: 'RichMan.Style',
+  searchPlaceholder: 'পণ্য বা সেটিংস খুঁজুন...',
+  showSearchBar: true,
+  headerBgColor: '#0f172a',
+  headerTextColor: '#ffffff',
+  headerAccentColor: '#f59e0b',
+  announcementBgColor: '#020617',
+  announcementTextColor: '#f8fafc',
+  headerGradientMode: true,
+  headerGradientCss: 'linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%)',
+  headerCustomCss: '',
+  headerPaddingSize: 'medium',
+  headerFontSize: 'medium',
+  headerSecondaryText: 'অফিসিয়াল ফ্ল্যাগশিপ ই-স্টোর',
+  headerBadgeText: 'LIVE',
+  stickyHeader: true,
+  showLiveBadge: true,
+  deliveryFeeInsideDhaka: 60,
+  deliveryFeeOutsideDhaka: 120,
+  outletAddressBn: 'খিলগাঁও আউটলেট, ঢাকা-১২১৯। প্রতিদিন খোলা।',
+};
+
+export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
+  {
+    id: 'slide-1',
+    badgeBn: 'CARGO JOGGER PREMIUM QUALITY',
+    headingBn: '৬ পকেট প্রিমিয়াম স্ট্রেচ কার্গো জগার্স প্যান্ট',
+    subheadingBn: 'ডেলিভারি চার্জ সম্পূর্ণ ফ্রি! ১০০% কটন ও ২% স্প্যান্ডেক্স ফ্যাব্রিক। ২ পিস কম্বো মাত্র ১৫৯৯ টাকা!',
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=1200',
+    ctaTextBn: '🛒 এখন অর্ডার করুন',
+    secondaryCtaTextBn: 'বিস্তারিত দেখুন',
+    discountBadge: '৳ ৮৯৯ / ২ পিস ৳১৫৯৯',
+    active: true,
+    linkCategory: 'combo_offers'
+  },
+  {
+    id: 'slide-2',
+    badgeBn: 'গ্র্যান্ড ডিসকাউন্ট মেলা ২০২৬',
+    headingBn: 'রয়্যাল পাঞ্জাবি ও প্রিমিয়াম ঢাকাই জামদানি কালেকশন',
+    subheadingBn: 'সারাদেশে ক্যাশ অন ডেলিভারিতে অরিজিনাল কটন পাঞ্জাবি ও তাঁতের জামদানি শাড়িতে পাচ্ছেন সর্বোচ্চ ৪০% ছাড়!',
+    image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=1200',
+    ctaTextBn: 'অর্ডার করুন',
+    secondaryCtaTextBn: 'ট্র্যাক করুন',
+    discountBadge: '৪০% পর্যন্ত ছাড়',
+    active: true,
+    linkCategory: 'mens_fashion'
+  },
+  {
+    id: 'slide-3',
+    badgeBn: 'লেটেস্ট গ্যাজেট স্পেশাল',
+    headingBn: 'স্মার্টওয়াচ ও নয়েজ ক্যান্সেলেশন ওয়্যারলেস ইয়ারবাডস',
+    subheadingBn: '৩৬ ঘণ্টা ব্যাটারি লাইফ, এইচডি অলওয়েজ-অন ডিসপ্লে ও ১ বছরের ওয়ারেন্টি সহ অরিজিনাল টেক গ্যাজেট।',
+    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=1200',
+    ctaTextBn: 'গ্যাজেট দেখুন',
+    secondaryCtaTextBn: 'অফার দেখুন',
+    discountBadge: 'ফ্রি শিপিং',
+    active: true,
+    linkCategory: 'gadgets'
+  }
+];
 
 export const BANGLADESHI_DISTRICTS: DistrictInfo[] = [
   {
@@ -59,14 +132,77 @@ export const BANGLADESHI_DISTRICTS: DistrictInfo[] = [
 ];
 
 export const CATEGORIES = [
-  { id: 'all', name: 'All Products', nameBn: 'সকল পণ্য' },
-  { id: 'mens_fashion', name: "Men's Fashion", nameBn: 'পুরুষের পোশাক' },
-  { id: 'womens_fashion', name: "Women's Collection", nameBn: 'নারীদের ফ্যাশন' },
-  { id: 'gadgets', name: 'Gadgets & Tech', nameBn: 'গ্যাজেট ও টেক' },
-  { id: 'footwear_leather', name: 'Leather & Accessories', nameBn: 'লেদার ও অ্যাকসেসরিজ' }
+  { id: 'all', name: 'All Products', nameBn: 'সকল পণ্য', count: 24, icon: '🔥' },
+  { id: 'combo_offers', name: 'Combo Offer', nameBn: 'কম্বো অফার', count: 15, icon: '🩳' },
+  { id: 'jogger_pants', name: 'Joggers Pant', nameBn: 'জগার প্যান্ট', count: 6, icon: '👖' },
+  { id: 'cargo_pants', name: 'Cargo Pants', nameBn: 'কার্গো প্যান্ট', count: 8, icon: '👖' },
+  { id: 'mens_fashion', name: "Men's Fashion", nameBn: 'পুরুষের পোশাক', count: 12, icon: '👔' },
+  { id: 'womens_fashion', name: "Women's Collection", nameBn: 'নারীদের ফ্যাশন', count: 8, icon: '👗' },
+  { id: 'gadgets', name: 'Gadgets & Tech', nameBn: 'গ্যাজেট ও টেক', count: 10, icon: '🎧' },
+  { id: 'footwear_leather', name: 'Leather & Accessories', nameBn: 'লেদার ও অ্যাকসেসরিজ', count: 6, icon: '👞' }
 ];
 
 export const MOCK_PRODUCTS: Product[] = [
+  {
+    id: 'prod-cargo-2pc-01',
+    sku: 'RM-CRG-2PC',
+    title: '2 Pcs 6 Pocket Cargo Jogger Pants Combo',
+    titleBn: '২ পিস ৬ পকেট কার্গো জগার্স প্যান্ট',
+    category: 'combo_offers',
+    categoryBn: 'কম্বো অফার',
+    originalPrice: 2500,
+    offerPrice: 1599,
+    discountPercent: 36,
+    rating: 4.9,
+    reviewsCount: 384,
+    images: [
+      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&q=80&w=800'
+    ],
+    colors: [
+      { name: 'Olive Green & Khaki', nameBn: 'অলিভ গ্রিন ও খাকি', hex: '#3f6212' },
+      { name: 'Black & Navy Blue', nameBn: 'ব্ল্যাক ও নেভি ব্লু', hex: '#0f172a' },
+      { name: 'Khaki & Charcoal', nameBn: 'খাকি ও চারকোল', hex: '#78350f' },
+      { name: 'Light Gray & Navy', nameBn: 'লাইট গ্রে ও নেভি', hex: '#64748b' }
+    ],
+    sizes: ['28', '30', '32', '34', '36', '38', '40'],
+    description: 'Premium quality 6-pocket cargo jogger pants combo. 98% Cotton + 2% Spandex blend for ultimate comfort, stretchability and style.',
+    descriptionBn: 'আধুনিক লুক, আরামদায়ক ফিট এবং দৈনন্দিন ব্যবহারের জন্য কার্যকর কার্গো ডিজাইন—সবকিছু একসাথে। প্রিমিয়াম ৯৮% কটন ও ২% স্প্যান্ডেক্স কাপড়।',
+    inStock: true,
+    isNewArrival: true,
+    isSpecialOffer: true,
+    tags: ['Best Seller', '2 Pcs Combo', 'Cargo Joggers', 'Free Delivery']
+  },
+  {
+    id: 'prod-cargo-single-01',
+    sku: 'RM-CRG-SGL',
+    title: 'Premium Stretchable Cargo Jogger Pant (Single)',
+    titleBn: '৬ পকেট প্রিমিয়াম স্ট্রেচ কার্গো জগার্স প্যান্ট',
+    category: 'jogger_pants',
+    categoryBn: 'জগার প্যান্ট',
+    originalPrice: 1250,
+    offerPrice: 899,
+    discountPercent: 28,
+    rating: 4.8,
+    reviewsCount: 196,
+    images: [
+      'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=800'
+    ],
+    colors: [
+      { name: 'Military Olive', nameBn: 'মিলিটারি অলিভ', hex: '#3f6212' },
+      { name: 'Jet Black', nameBn: 'জেট ব্ল্যাক', hex: '#09090b' },
+      { name: 'Desert Khaki', nameBn: 'ডেজার্ট খাকি', hex: '#b45309' }
+    ],
+    sizes: ['28', '30', '32', '34', '36', '38', '40'],
+    description: 'Single piece premium cargo jogger pant with YKK zipper, drawstrings elastic waist and tapered jogger cuff.',
+    descriptionBn: 'নিচের ইলাস্টিক কাফ প্যান্টকে স্মার্ট টেপার্ড লুক দেয় এবং জুতোর সঙ্গে সুন্দরভাবে মানিয়ে যায়। এ-গ্রেড ওয়াইকেকে জিপার ও পরিপাটি স্টিচিং।',
+    inStock: true,
+    isNewArrival: true,
+    isSpecialOffer: true,
+    tags: ['Single Pant', 'Cargo Jogger']
+  },
   {
     id: 'prod-101',
     sku: 'DS-PNJ-2026',

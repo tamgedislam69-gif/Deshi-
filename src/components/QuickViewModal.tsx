@@ -152,49 +152,99 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   </div>
                 )}
 
-                {/* Size Selector with Size Chart Trigger */}
+                {/* Size Selector with Clear button */}
                 {product.sizes.length > 0 && (
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-xs font-bold text-slate-700">
-                        সাইজ বেছে নিন: <span className="text-amber-600 font-extrabold">{selectedSize}</span>
+                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-800">
+                        কোমরে সাইজঃ : <span className="text-rose-600 font-extrabold">{selectedSize}</span>
                       </label>
                       <button
                         type="button"
-                        onClick={() => setSizeGuideOpen(true)}
-                        className="text-amber-600 hover:text-amber-700 font-bold text-xs flex items-center gap-1 cursor-pointer underline"
+                        onClick={() => setSelectedSize(product.sizes[0])}
+                        className="text-rose-600 hover:text-rose-700 font-bold text-[11px] bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200 cursor-pointer"
                       >
-                        <Ruler className="w-3.5 h-3.5" />
-                        <span>সাইজ চার্ট</span>
+                        Clear
                       </button>
                     </div>
+
                     <div className="flex items-center gap-2 flex-wrap">
-                      {product.sizes.map((size) => (
-                        <button
-                          key={size}
-                          onClick={() => setSelectedSize(size)}
-                          className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                            selectedSize === size
-                              ? 'bg-amber-500 text-slate-950 border-amber-500 shadow-xs'
-                              : 'bg-slate-50 text-slate-800 border-slate-200 hover:border-slate-400'
-                          }`}
-                        >
-                          {size}
-                        </button>
-                      ))}
+                      {product.sizes.map((size) => {
+                        const isSelected = selectedSize === size;
+                        return (
+                          <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            className={`px-3 py-1.5 rounded-xl border text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
+                              isSelected
+                                ? 'bg-emerald-600 text-white border-emerald-600 shadow-md'
+                                : 'bg-white text-slate-800 border-slate-300 hover:border-slate-400'
+                            }`}
+                          >
+                            {isSelected && <span className="text-xs">✓</span>}
+                            <span>{size}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {/* Trust highlights */}
-                <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-200/60 space-y-1.5 text-xs text-amber-900">
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <Truck className="w-4 h-4 text-amber-600" />
-                    <span>ঢাকা সিটি ৳৬০ | ঢাকার বাইরে ৳১২০</span>
+                {/* Direct Call & WhatsApp Contact Row */}
+                <div className="flex items-center gap-2 pt-1">
+                  <a
+                    href="tel:01348070130"
+                    className="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold py-2.5 px-3 rounded-xl border border-slate-700 flex items-center justify-center gap-1.5 shadow-xs"
+                  >
+                    <span>📞</span>
+                    <span>01348070130</span>
+                  </a>
+                  <a
+                    href="https://wa.me/8801348070130"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-xs"
+                  >
+                    <span>💬</span>
+                    <span>01348070130</span>
+                  </a>
+                </div>
+
+                {/* Why Choose This Product Cards */}
+                <div className="pt-2 space-y-2">
+                  <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider">
+                    কেন এই কার্গো জগারটি বেছে নেবেন?
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                    <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+                      <span className="font-extrabold text-slate-900 block">🧵 প্রিমিয়াম ফেব্রিক</span>
+                      <p className="text-slate-600 leading-snug">৯৮% কটন ও ২% স্প্যান্ডেক্স—নরম অনুভূতি ও হালকা স্ট্রাচ।</p>
+                    </div>
+                    <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+                      <span className="font-extrabold text-slate-900 block">🎒 কার্যকর কার্গো পকেট</span>
+                      <p className="text-slate-600 leading-snug">দুই পাশে বড় ফ্ল্যাপ পকেটসহ প্রয়োজনীয় জিনিস বহনের সুবিধা।</p>
+                    </div>
+                    <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+                      <span className="font-extrabold text-slate-900 block">🪢 ইলাস্টিক কোমর</span>
+                      <p className="text-slate-600 leading-snug">ইলাস্টিক কোমর ও ড্র-স্ট্রিং এর জন্য পারফেক্ট ফিটিং।</p>
+                    </div>
+                    <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+                      <span className="font-extrabold text-slate-900 block">👟 জগার কাফ</span>
+                      <p className="text-slate-600 leading-snug">নিচের ইলাস্টিক কাফ প্যান্টকে স্মার্ট টেপার্ড লুক দেয়।</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>ক্যাশ অন ডেলিভারি - পণ্য হাতে পেয়ে চেক করে পেমেন্ট</span>
+                </div>
+
+                {/* Checklist Features */}
+                <div className="bg-slate-900 text-white p-3.5 rounded-2xl space-y-2 text-xs">
+                  <h5 className="font-extrabold text-amber-400">প্রোডাক্টের বৈশিষ্ট্যসমূহ:</h5>
+                  <div className="grid grid-cols-2 gap-1.5 text-[11px] text-slate-200">
+                    <div>✓ ৯৮% কটন + ২% স্প্যান্ডেক্স</div>
+                    <div>✓ রঙের মান বজায় রাখার নিশ্চয়তা</div>
+                    <div>✓ A-Grade YKK নাইলন জিপার</div>
+                    <div>✓ শক্তিশালী ও পরিপাটি স্টিচিং</div>
+                    <div>✓ দুই পাশে বড় কার্গো পকেট</div>
+                    <div>✓ ইলাস্টিক কোমর ও ড্র-স্ট্রিং</div>
                   </div>
                 </div>
               </div>

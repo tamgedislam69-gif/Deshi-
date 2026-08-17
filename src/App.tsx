@@ -4,7 +4,6 @@ import { HeroSlider } from './components/HeroSlider';
 import { CategoryCircles } from './components/CategoryCircles';
 import { FlashSaleTimer } from './components/FlashSaleTimer';
 import { ProductGrid } from './components/ProductGrid';
-import { CustomerReviews } from './components/CustomerReviews';
 import { QuickViewModal } from './components/QuickViewModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CODCheckoutModal } from './components/CODCheckoutModal';
@@ -19,15 +18,32 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Toast, ToastMessage } from './components/Toast';
 
 import { 
-  CartItem, Order, OrderStatus, Product, ProductColor, TabType 
+  CartItem, Order, OrderStatus, Product, ProductColor, TabType, HeroSlide, SiteSettings 
 } from './types';
-import { MOCK_PRODUCTS, INITIAL_MOCK_ORDERS } from './data/mockData';
+import { MOCK_PRODUCTS, INITIAL_MOCK_ORDERS, DEFAULT_HERO_SLIDES, DEFAULT_SITE_SETTINGS } from './data/mockData';
 
 export default function App() {
   // Navigation & View State
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Site Settings & Banners State
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>(() => {
+    const saved = localStorage.getItem('deshistore_settings');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+    }
+    return DEFAULT_SITE_SETTINGS;
+  });
+
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
+    const saved = localStorage.getItem('deshistore_slides');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+    }
+    return DEFAULT_HERO_SLIDES;
+  });
 
   // Products State
   const [products, setProducts] = useState<Product[]>(() => {
@@ -86,6 +102,14 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('deshistore_orders', JSON.stringify(orders));
   }, [orders]);
+
+  useEffect(() => {
+    localStorage.setItem('deshistore_settings', JSON.stringify(siteSettings));
+  }, [siteSettings]);
+
+  useEffect(() => {
+    localStorage.setItem('deshistore_slides', JSON.stringify(heroSlides));
+  }, [heroSlides]);
 
   // Show Toast Helper
   const showToast = (type: 'success' | 'error' | 'info', title: string, message?: string) => {
@@ -208,6 +232,7 @@ export default function App() {
         onOpenShopifyModal={() => setShopifyModalOpen(true)}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        siteSettings={siteSettings}
       />
 
       {/* View Switcher based on Active Tab */}
@@ -217,6 +242,11 @@ export default function App() {
         {activeTab === 'home' && (
           <div className="space-y-4">
             <HeroSlider
+              slides={heroSlides}
+              autoSlideSpeed={siteSettings.autoSlideSpeed}
+              transitionEffect={siteSettings.slideTransitionEffect}
+              showArrows={siteSettings.showSliderArrows}
+              showDots={siteSettings.showSliderDots}
               onShopClick={() => {
                 setActiveTab('shop');
                 window.scrollTo({ top: 500, behavior: 'smooth' });
@@ -232,12 +262,14 @@ export default function App() {
               }}
             />
 
-            <FlashSaleTimer
-              onShopClick={() => {
-                setActiveTab('special_offers');
-                window.scrollTo({ top: 300, behavior: 'smooth' });
-              }}
-            />
+            {siteSettings.enableFlashSaleTimer && (
+              <FlashSaleTimer
+                onShopClick={() => {
+                  setActiveTab('special_offers');
+                  window.scrollTo({ top: 300, behavior: 'smooth' });
+                }}
+              />
+            )}
 
             <ProductGrid
               products={products}
@@ -250,8 +282,6 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onQuickView={(p) => setQuickViewProduct(p)}
             />
-
-            <CustomerReviews />
           </div>
         )}
 
@@ -283,9 +313,13 @@ export default function App() {
         {activeTab === 'admin' && (
           <AdminDashboard
             orders={orders}
+            heroSlides={heroSlides}
+            siteSettings={siteSettings}
             onUpdateOrderStatus={handleUpdateOrderStatus}
             onUpdateInternalNote={handleUpdateInternalNote}
             onAddNewProduct={handleAddNewProduct}
+            onUpdateHeroSlides={setHeroSlides}
+            onUpdateSiteSettings={setSiteSettings}
           />
         )}
 
@@ -341,7 +375,7 @@ export default function App() {
       />
 
       {/* Live Sales Notification Toast */}
-      <LiveSalesPopup />
+      {siteSettings.enableLiveSalesPopup && <LiveSalesPopup />}
 
       {/* Floating WhatsApp Support Button */}
       <FloatingWhatsApp />

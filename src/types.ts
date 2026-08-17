@@ -78,3 +78,53 @@ export interface DistrictInfo {
 }
 
 export type TabType = 'home' | 'shop' | 'new_arrivals' | 'special_offers' | 'track_order' | 'admin' | 'shopify_export';
+
+export interface HeroSlide {
+  id: string;
+  badgeBn: string;
+  headingBn: string;
+  subheadingBn: string;
+  image: string;
+  ctaTextBn: string;
+  secondaryCtaTextBn: string;
+  discountBadge: string;
+  active: boolean;
+  linkCategory?: string;
+}
+
+export type SliderTransitionEffect = 'fade' | 'slide' | 'zoom' | 'flip';
+
+export interface SiteSettings {
+  enableLiveSalesPopup: boolean;
+  enableFlashSaleTimer: boolean;
+  autoSlideSpeed: number; // in seconds
+  slideTransitionEffect?: SliderTransitionEffect;
+  showSliderArrows?: boolean;
+  showSliderDots?: boolean;
+  storeName?: string;
+  announcementText?: string;
+  showAnnouncementBar?: boolean;
+  whatsappHotline?: string;
+  showHotline?: boolean;
+  storeTagline?: string;
+  searchPlaceholder?: string;
+  showSearchBar?: boolean;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  headerAccentColor?: string;
+  announcementBgColor?: string;
+  announcementTextColor?: string;
+  headerGradientMode?: boolean;
+  headerGradientCss?: string;
+  headerCustomCss?: string;
+  headerPaddingSize?: 'small' | 'medium' | 'large' | 'xlarge';
+  headerFontSize?: 'small' | 'medium' | 'large' | 'xlarge';
+  headerSecondaryText?: string;
+  headerBadgeText?: string;
+  stickyHeader?: boolean;
+  showLiveBadge?: boolean;
+  deliveryFeeInsideDhaka?: number;
+  deliveryFeeOutsideDhaka?: number;
+  outletAddressBn?: string;
+}
+

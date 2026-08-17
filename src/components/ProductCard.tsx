@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, ShoppingBag, Eye, Check } from 'lucide-react';
+import { Star, ShoppingBag, Eye } from 'lucide-react';
 import { Product, ProductColor } from '../types';
 
 interface ProductCardProps {
@@ -15,8 +15,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   onQuickView
 }) => {
-  const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
   const [hoveredImage, setHoveredImage] = useState<string>(product.images[0]);
 
   return (
@@ -31,17 +29,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           loading="lazy"
         />
 
-        {/* Badges on Top Left */}
-        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10 pointer-events-none">
-          {product.discountPercent > 0 && (
-            <span className="bg-rose-600 text-white font-extrabold text-[11px] px-2.5 py-1 rounded-full shadow-md">
-              -{product.discountPercent}% ছাড়
+        {/* Category Badge / Combo Tag if applicable */}
+        {product.category === 'combo_offers' && (
+          <div className="absolute bottom-2 left-2 z-10">
+            <span className="bg-slate-950/90 text-amber-300 font-extrabold text-[10px] px-2.5 py-1 rounded-md shadow-md border border-amber-500/30 backdrop-blur-xs">
+              ২ পিস কম্বো অফার
             </span>
-          )}
-          <span className="bg-slate-900/90 text-amber-300 font-mono text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-500/30 backdrop-blur-xs">
-            SKU: {product.sku}
-          </span>
-        </div>
+          </div>
+        )}
 
         {/* Quick View Button on Image Hover */}
         <button
@@ -104,70 +99,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
         </div>
 
-        {/* Color Swatches */}
-        {product.colors.length > 0 && (
-          <div className="mt-3">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center justify-between">
-              <span>কালার: {selectedColor.nameBn}</span>
-            </div>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {product.colors.map((color) => (
-                <button
-                  key={color.name}
-                  onClick={() => setSelectedColor(color)}
-                  className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center relative cursor-pointer ${
-                    selectedColor.name === color.name ? 'ring-2 ring-amber-500 ring-offset-1 border-slate-900 scale-110' : 'border-slate-300 hover:scale-105'
-                  }`}
-                  style={{ backgroundColor: color.hex }}
-                  title={color.nameBn}
-                >
-                  {selectedColor.name === color.name && (
-                    <Check className={`w-3 h-3 ${color.hex === '#ffffff' || color.hex === '#f8fafc' || color.hex === '#fef08a' ? 'text-slate-900' : 'text-white'}`} />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Size Selection Pills */}
-        {product.sizes.length > 0 && (
-          <div className="mt-2.5">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
-              সাইজ: {selectedSize}
-            </div>
-            <div className="flex items-center gap-1 flex-wrap">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-md border transition-all cursor-pointer ${
-                    selectedSize === size
-                      ? 'bg-slate-900 text-amber-400 border-slate-900 shadow-2xs'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-400'
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* CTAs: Order Now (Primary COD) + Add to Cart (Secondary) */}
-        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
-          {/* Direct Order Button (অর্ডার করুন) */}
+        <div className="mt-[auto] pt-3 border-t border-slate-100 flex items-center gap-2">
+          {/* Direct Order Button (🛒 অর্ডার করুন) */}
           <button
-            onClick={() => onQuickOrder(product, selectedColor, selectedSize)}
-            className="flex-1 bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-black text-xs sm:text-sm py-2.5 px-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer"
+            onClick={() => onQuickOrder(product, product.colors[0], product.sizes[0])}
+            className="flex-1 bg-slate-950 hover:bg-slate-800 active:scale-95 text-white font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
           >
+            <span>🛒</span>
             <span>অর্ডার করুন</span>
           </button>
 
           {/* Add to Cart Button */}
           <button
-            onClick={() => onAddToCart(product, selectedColor, selectedSize)}
-            className="bg-slate-100 hover:bg-slate-900 hover:text-white active:scale-95 text-slate-800 p-2.5 rounded-xl border border-slate-200 transition-all flex items-center justify-center cursor-pointer"
+            onClick={() => onAddToCart(product, product.colors[0], product.sizes[0])}
+            className="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 p-2.5 rounded-xl transition-all flex items-center justify-center cursor-pointer"
             title="কার্টে যোগ করুন"
           >
             <ShoppingBag className="w-4 h-4" />

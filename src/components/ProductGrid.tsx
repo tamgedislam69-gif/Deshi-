@@ -20,7 +20,7 @@ interface ProductGridProps {
 }
 
 export const ProductGrid: React.FC<ProductGridProps> = ({
-  products,
+  products = [],
   selectedCategory,
   setSelectedCategory,
   searchQuery,
@@ -35,7 +35,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
 
   // Filter products based on category, search query, and tab context
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
+    return (products || []).filter((p) => {
       // 1. Tab filter
       if (activeTab === 'new_arrivals' && !p.isNewArrival) return false;
       if (activeTab === 'special_offers' && !p.isSpecialOffer) return false;

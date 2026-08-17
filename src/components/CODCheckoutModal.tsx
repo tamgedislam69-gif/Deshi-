@@ -56,36 +56,9 @@ export const CODCheckoutModal: React.FC<CODCheckoutModalProps> = ({
   const [address, setAddress] = useState('');
   const [orderNote, setOrderNote] = useState('');
 
-  // Discount Promo Code State
-  const [couponCode, setCouponCode] = useState('');
-  const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; amount: number; type: 'percentage' | 'fixed' } | null>(null);
-  const [couponError, setCouponError] = useState('');
-  const [couponSuccess, setCouponSuccess] = useState('');
-
   const [mobileError, setMobileError] = useState('');
   const [zoneError, setZoneError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Apply Coupon Discount Handler
-  const handleApplyCoupon = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const code = couponCode.trim().toUpperCase();
-    if (!code) return;
-
-    if (code === 'DESHI10' || code === 'PROMO10' || code === 'DISCOUNT10') {
-      setAppliedDiscount({ code, amount: 10, type: 'percentage' });
-      setCouponSuccess('১০% ডিসকাউন্ট কুপন প্রয়োগ করা হয়েছে!');
-      setCouponError('');
-    } else if (code === 'WELCOME100' || code === 'SAVE100') {
-      setAppliedDiscount({ code, amount: 100, type: 'fixed' });
-      setCouponSuccess('৳১০০ টাকা ক্যাশব্যাক ডিসকাউন্ট প্রয়োগ করা হয়েছে!');
-      setCouponError('');
-    } else {
-      setCouponError('দুঃখিত, কুপন কোডটি সঠিক নয়! (ট্রাই করুন: DESHI10 বা WELCOME100)');
-      setCouponSuccess('');
-      setAppliedDiscount(null);
-    }
-  };
 
   // Update thana dropdown when district changes
   const handleDistrictChange = (distName: string) => {
@@ -125,18 +98,8 @@ export const CODCheckoutModal: React.FC<CODCheckoutModalProps> = ({
     return acc + item.product.offerPrice * sel.quantity;
   }, 0);
 
-  // Discount Calculation
-  let discountAmount = 0;
-  if (appliedDiscount) {
-    if (appliedDiscount.type === 'percentage') {
-      discountAmount = Math.round((subtotal * appliedDiscount.amount) / 100);
-    } else {
-      discountAmount = appliedDiscount.amount;
-    }
-  }
-
   const deliveryFee = deliveryZone === 'inside_dhaka' ? 60 : deliveryZone === 'outside_dhaka' ? 120 : 0;
-  const grandTotal = Math.max(0, subtotal - discountAmount) + deliveryFee;
+  const grandTotal = subtotal + deliveryFee;
 
   // Validate Bangladeshi Mobile Number
   const validateMobile = (num: string): boolean => {
@@ -367,36 +330,6 @@ export const CODCheckoutModal: React.FC<CODCheckoutModalProps> = ({
                 );
               })}
             </div>
-
-            {/* Promo / Discount Coupon Field */}
-            <div className="pt-2 border-t border-slate-200">
-              <span className="text-xs font-bold text-slate-700 block mb-1">
-                ডিসকাউন্ট বা প্রমো কুপন কোড (Promo / Coupon Code)
-              </span>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  placeholder="যেমন: DESHI10 বা WELCOME100"
-                  className="flex-1 bg-white text-xs font-mono font-bold uppercase px-3 py-2 rounded-xl border border-slate-300 focus:border-amber-500 focus:outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleApplyCoupon()}
-                  className="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2 rounded-xl text-xs shadow-xs cursor-pointer shrink-0"
-                >
-                  এপ্লাই করুন
-                </button>
-              </div>
-              {couponSuccess && (
-                <p className="text-[11px] font-bold text-emerald-600 mt-1">{couponSuccess}</p>
-              )}
-              {couponError && (
-                <p className="text-[11px] font-bold text-rose-600 mt-1">{couponError}</p>
-              )}
-            </div>
-
           </div>
 
           {/* Customer Delivery Information */}
@@ -589,13 +522,6 @@ export const CODCheckoutModal: React.FC<CODCheckoutModalProps> = ({
               <span>পণ্যমূল্য (Subtotal):</span>
               <span className="font-bold text-white">৳{subtotal.toLocaleString('en-IN')}</span>
             </div>
-
-            {appliedDiscount && (
-              <div className="flex justify-between text-xs text-emerald-400 font-bold">
-                <span>ডিসকাউন্ট ({appliedDiscount.code}):</span>
-                <span>-৳{discountAmount.toLocaleString('en-IN')}</span>
-              </div>
-            )}
 
             <div className="flex justify-between text-xs text-slate-300">
               <span>কুরিয়ার চার্জ:</span>
